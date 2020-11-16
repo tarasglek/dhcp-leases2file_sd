@@ -10,8 +10,10 @@ import * as fs from 'fs';
         let parts = line.split(' ')
         let ip = parts[2]
         let name = parts[3]
-        if (name == '*')
+        // computers without a name or brother priners are not interesting
+        if (name == '*' || /^BRW/.exec(name)) {
             continue
+        }
         for (let port of [80, 9100]) {
             tryLS.push(`${name}:${port}`)
         }
