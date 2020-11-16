@@ -13,10 +13,10 @@ import * as fs from 'fs';
         if (name == '*')
             continue
         for (let port of [80, 9100]) {
-            tryLS.push(`http://${name}:${port}/metrics`)
+            tryLS.push(`${name}:${port}`)
         }
     }
-    let hostsWithMetrics = (await Promise.all(tryLS.map(async x => (await isReachable(x)) ? x : null))).filter(x => !!x)
+    let hostsWithMetrics = (await Promise.all(tryLS.map(async x => (await isReachable(`http://${x}/metrics`)) ? x : null))).filter(x => !!x)
     let ret = [
         {
           "labels": {
